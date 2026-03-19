@@ -67,14 +67,13 @@
   @keyframes pulse { 0%, 100% { opacity: 1; text-shadow: 0 0 10px #4ADE80; } 50% { opacity: 0.4; text-shadow: none; } }
 
   .hero {
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 0 24px;
-    background: radial-gradient(circle at center, var(--glow) 0%, transparent 60%);
-    position: relative;
+    padding: 120px 24px 80px;
+    background: radial-gradient(circle at center 40%, var(--glow) 0%, transparent 60%);
   }
 
   .subtitle { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 5px; color: var(--gold); margin-bottom: 24px; text-transform: uppercase; }
@@ -82,85 +81,88 @@
   .gold-gradient { background: linear-gradient(135deg, var(--gold-light), var(--gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
   .intro-text { font-size: 20px; color: var(--text-muted); max-width: 600px; margin: 0 auto; line-height: 1.7; }
 
-  /* --- STORYTELLING CINEMATIC CSS --- */
-  .story-section {
+  /* --- SPLIT-SCREEN STORYTELLING CSS --- */
+  .story-wrapper {
+    background: #000;
+    border-top: 1px solid var(--border);
     position: relative;
-    height: 200vh; /* creates scrolling room */
   }
 
-  .sticky-visual {
+  .story-block {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .story-visual {
+    flex: 1;
     position: sticky;
     top: 0;
     height: 100vh;
-    width: 100%;
-    overflow: hidden;
-    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px;
+    background: radial-gradient(circle at center, rgba(226,185,106,0.05), transparent 70%);
   }
 
-  .sticky-visual img {
+  .story-visual img {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
-    opacity: 0.6;
-    transform: scale(1.1); /* prepare for slow zoom */
-    transition: transform 0.5s ease-out;
+    max-width: 500px;
+    height: auto;
+    border-radius: 24px;
+    box-shadow: 0 40px 100px rgba(0,0,0,0.8), 0 0 60px rgba(226,185,106,0.15);
+    border: 1px solid var(--border);
+    transition: transform 0.5s ease;
   }
   
-  /* Gradual overlay to mix the image into the dark background */
-  .visual-overlay {
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: linear-gradient(to bottom, var(--bg) 0%, transparent 20%, transparent 80%, var(--bg) 100%),
-                linear-gradient(to right, rgba(5,5,5,0.8), transparent 50%, rgba(5,5,5,0.8));
-    z-index: 2;
+  .story-visual img:hover {
+    transform: scale(1.02);
   }
 
-  .story-content {
-    position: relative;
-    z-index: 10;
+  .story-text-container {
+    flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    padding: 100px 24px;
-    max-width: 1000px;
-    margin: 0 auto;
-    height: 100vh; /* matches window height to center text over image */
-    pointer-events: none; /* Let users scroll smoothly */
+    padding: 0 80px;
   }
 
   .story-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    padding: 48px;
-    border-radius: 16px;
-    backdrop-filter: blur(25px);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     max-width: 500px;
-    pointer-events: auto;
-    box-shadow: 0 40px 80px rgba(0,0,0,0.8), inset 0 0 40px rgba(226,185,106,0.05);
   }
 
-  .content-right { align-items: flex-end; }
-  .content-left { align-items: flex-start; }
+  .story-card h2 { font-size: 40px; color: #fff; margin-bottom: 24px; line-height: 1.1; letter-spacing: -1px; }
+  .story-card p { font-size: 18px; color: var(--text-muted); line-height: 1.8; margin-bottom: 16px; }
 
-  .story-card h2 { font-size: 36px; color: #fff; margin-bottom: 20px; line-height: 1.1; }
-  .story-card p { font-size: 16px; color: var(--text-muted); line-height: 1.8; }
+  /* Reverse layout for alternating flow */
+  .story-block.alt-flow { flex-direction: row-reverse; }
+  
+  /* Mobile adjustments for story */
+  @media (max-width: 968px) {
+    .story-block { flex-direction: column !important; }
+    .story-visual { height: 60vh; position: relative; padding: 40px 24px 0; }
+    .story-text-container { padding: 40px 24px; }
+    .story-card { min-height: auto; padding: 40px 0; }
+  }
 
   /* Standard sections continue here */
-  .container { max-width: 900px; margin: 0 auto; padding: 100px 24px; position: relative; z-index: 20; background: var(--bg); }
+  .container { max-width: 1000px; margin: 0 auto; padding: 120px 24px; position: relative; z-index: 20; background: var(--bg); }
 
   .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-bottom: 80px; }
 
-  .glass-card {
-    background: rgba(15,15,17,0.4); border: 1px solid rgba(255,255,255,0.05);
-    padding: 32px; border-radius: 16px; transition: all 0.4s ease;
-  }
+  .glass-card { background: rgba(15,15,17,0.4); border: 1px solid rgba(255,255,255,0.05); padding: 40px; border-radius: 16px; transition: all 0.4s ease; }
   .glass-card:hover { transform: translateY(-8px); border-color: rgba(226,185,106,0.3); box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
   .glass-card .freq { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 3px; color: var(--gold); margin-bottom: 16px; }
-  .glass-card h3 { font-size: 20px; font-weight: 600; margin-bottom: 12px; color: #fff; }
-  .glass-card p { font-size: 14px; color: var(--text-muted); line-height: 1.6; }
+  .glass-card h3 { font-size: 22px; font-weight: 600; margin-bottom: 16px; color: #fff; }
+  .glass-card p { font-size: 15px; color: var(--text-muted); line-height: 1.7; }
 
   .faq-section { margin-bottom: 80px; }
-  .faq-section h2 { font-size: 32px; margin-bottom: 32px; font-weight: 600; text-align: center;}
+  .faq-section h2 { font-size: 36px; margin-bottom: 40px; font-weight: 600; text-align: center; color: #fff; }
   details { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 12px; margin-bottom: 16px; transition: all 0.3s ease; }
   details[open] { background: rgba(226,185,106,0.03); border-color: rgba(226,185,106,0.3); }
   summary { padding: 24px; font-size: 18px; font-weight: 500; cursor: pointer; display: flex; justify-content: space-between; color: #fff; list-style: none; }
@@ -169,15 +171,17 @@
   details[open] summary::after { transform: rotate(45deg); }
   .faq-content { padding: 0 24px 24px; color: var(--text-muted); font-size: 15px; line-height: 1.7; }
 
-  .cta-box { border: 1px solid var(--border); padding: 60px; text-align: center; border-radius: 16px; background: radial-gradient(circle, rgba(226,185,106,0.08), transparent 70%); }
-  .btn { background: var(--gold); color: #000; padding: 16px 40px; font-weight: 700; font-size: 13px; text-decoration: none; letter-spacing: 2px; border-radius: 30px; display: inline-block; margin-top: 24px; transition: 0.3s; }
-  .btn:hover { background: var(--gold-light); transform: translateY(-3px); box-shadow: 0 10px 30px rgba(226,185,106,0.3); }
+  .cta-box { border: 1px solid var(--border); padding: 80px 40px; text-align: center; border-radius: 20px; background: radial-gradient(circle, rgba(226,185,106,0.08), transparent 70%); }
+  .btn { background: var(--gold); color: #000; padding: 18px 48px; font-weight: 700; font-size: 14px; text-decoration: none; letter-spacing: 2px; border-radius: 40px; display: inline-block; margin-top: 32px; transition: 0.3s; }
+  .btn:hover { background: var(--gold-light); transform: translateY(-3px) scale(1.02); box-shadow: 0 15px 35px rgba(226,185,106,0.3); }
 
-  footer { text-align: center; padding: 40px; border-top: 1px solid #111; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); letter-spacing: 1px; }
+  footer { text-align: center; padding: 40px; border-top: 1px solid rgba(255, 255, 255, 0.05); font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); letter-spacing: 2px; }
   
   /* Initial load animations */
   .fade-in { animation: fadeIn 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; opacity: 0; transform: translateY(30px); }
   @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
+  .delay-1 { animation-delay: 0.1s; }
+  .delay-2 { animation-delay: 0.2s; }
 </style>
 </head>
 <body>
@@ -197,41 +201,44 @@
   </div>
 </header>
 
-<!-- STORYTELLING SECTION 1 -->
-<div class="story-section">
-  <div class="sticky-visual">
-    <div class="visual-overlay"></div>
-    <img src="assets/dossier_hd.png" alt="Classified Dossier on Executive Desk">
-  </div>
-  <div class="story-content content-left">
-    <div class="story-card fade-in">
-      <div class="subtitle">THE ARCHITECTS</div>
-      <h2>Unmatched Espionage.</h2>
-      <p>While your competitors sleep, our operatives analyze the shifting tectonic plates of the Indian SaaS landscape. We deploy deeply embedded capabilities and relentless execution to deliver the absolute truth, wrapped in discretion.</p>
+<div class="story-wrapper">
+  <!-- STORYTELLING SECTION 1: THE ALIEN AGENT -->
+  <div class="story-block">
+    <div class="story-visual">
+      <img src="assets/alien_agent.png" alt="Exotic Alien Intelligence Operative">
+    </div>
+    <div class="story-text-container">
+      <div class="story-card">
+        <p class="subtitle">THE OUTLIERS</p>
+        <h2>Anomalies in Plain Sight.</h2>
+        <p>We do not fit standard consulting checkboxes. Think of our intelligence acquisition system like an unidentified, exotic entity—an anomaly operating within the Indian SaaS ecosystem. We deploy highly abnormal capabilities and relentless execution to infiltrate data streams your competitors consider locked.</p>
+        <p>We see what they hide, hear what they whisper, and deliver the unvarnished truth directly to your desk.</p>
+      </div>
     </div>
   </div>
-</div>
 
-<!-- STORYTELLING SECTION 2 -->
-<div class="story-section">
-  <div class="sticky-visual">
-    <div class="visual-overlay"></div>
-    <img src="assets/war_map_hd.png" alt="Holographic Corporate War Map">
-  </div>
-  <div class="story-content content-right">
-    <div class="story-card fade-in">
-      <div class="subtitle">THE ARTIFACT</div>
-      <h2>Engineered Precision.</h2>
-      <p>We don't deliver generic PDFs. We forge hyper-advanced, impeccably condensed cores of strategic value. We deliver an 8-section private dossier in under 24 hours that gives you total asymmetric advantage in any boardroom negotiation.</p>
+  <!-- STORYTELLING SECTION 2: THE NANO BANANA -->
+  <div class="story-block alt-flow">
+    <div class="story-visual">
+      <img src="assets/nano_banana.png" alt="Futuristic Glowing Banana Artifact">
+    </div>
+    <div class="story-text-container">
+      <div class="story-card">
+        <p class="subtitle">THE ARTIFACT</p>
+        <h2>Precision-Engineered Clarity.</h2>
+        <p>Most consultants hand you an overripe, bloated 50-page PDF that wastes your time. We forage something beautifully different. We call our intelligence philosophy the <strong>'Nano Banana'</strong>—a hyper-condensed, technologically advanced core of pure strategic insight.</p>
+        <p>We strip away the peel of irrelevant noise. What remains is a glowing, weaponized dossier delivered in under 24 hours that gives you asymmetric advantage in any boardroom.</p>
+      </div>
     </div>
   </div>
 </div>
 
 <main class="container">
   
-  <div style="text-align: center; margin-bottom: 60px;">
+  <div style="text-align: center; margin-bottom: 80px;">
     <p class="subtitle">THE ARSENAL</p>
-    <h2>What We Deliver</h2>
+    <h2 style="font-size: 36px; color: #fff; margin-bottom: 24px;">What We Deliver</h2>
+    <p style="color: var(--text-muted); max-width: 500px; margin: 0 auto;">Standard intelligence reacts to the market. Sovereign intelligence shapes it.</p>
   </div>
 
   <section class="grid-2">
@@ -268,6 +275,13 @@
       </div>
     </details>
     
+    <details>
+      <summary>How does the "Nano Banana" philosophy improve intelligence?</summary>
+      <div class="faq-content">
+        The 'Nano Banana' is our metaphor for extreme intelligence condensation. Instead of bloated reports, our team filters immense amounts of market data into a highly precise, easily digestible format that founders can action immediately.
+      </div>
+    </details>
+
     <details>
       <summary>What is included in the daily intelligence brief?</summary>
       <div class="faq-content">
