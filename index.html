@@ -1,7 +1,3 @@
-<!-- Save as index.html, push to GitHub, connect to Vercel → done -->
-<!-- Custom domain: buy sovereignintel.in on GoDaddy (~₹800/yr) -->
-<!-- Connect domain in Vercel dashboard → free SSL auto-configured -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -31,122 +27,438 @@
 }
 </script>
 <style>
-  :root{--bg:#0A0A0C;--text:#E8E6F0;--gold:#E2B96A;--muted:#6B6880;--border:#1E1E26;}
-  *{margin:0;padding:0;box-sizing:border-box;}
-  body{background:var(--bg);color:var(--text);font-family:'Space Grotesk',sans-serif;
-       line-height:1.6;overflow-x:hidden;}
-  /* ... full CSS in the deployed file ... */
+  :root {
+    --bg: #050505;
+    --bg-card: rgba(15, 15, 17, 0.6);
+    --text: #F3F4F6;
+    --text-muted: #9CA3AF;
+    --gold: #E2B96A;
+    --gold-light: #FDE08B;
+    --border: rgba(226, 185, 106, 0.15);
+    --glow: rgba(226, 185, 106, 0.1);
+  }
+  
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Space Grotesk', sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+    position: relative;
+  }
+  
+  /* Background Glow Effects */
+  body::before, body::after {
+    content: '';
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--glow) 0%, transparent 70%);
+    z-index: -1;
+    pointer-events: none;
+  }
+  body::before { top: -200px; left: -200px; }
+  body::after { bottom: 20%; right: -200px; }
+
+  nav {
+    padding: 24px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  
+  .logo {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    color: var(--gold);
+    letter-spacing: 3px;
+    font-weight: 600;
+  }
+  
+  .status {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 2px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .status-dot { color: #4ADE80; animation: pulse 2s infinite; }
+  
+  @keyframes pulse {
+    0% { opacity: 1; text-shadow: 0 0 10px #4ADE80; }
+    50% { opacity: 0.4; text-shadow: none; }
+    100% { opacity: 1; text-shadow: 0 0 10px #4ADE80; }
+  }
+
+  .container {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 100px 24px 60px;
+  }
+
+  .animate-up {
+    animation: fadeUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  .delay-1 { animation-delay: 0.1s; }
+  .delay-2 { animation-delay: 0.2s; }
+  .delay-3 { animation-delay: 0.3s; }
+
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .subtitle {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 5px;
+    color: var(--gold);
+    margin-bottom: 24px;
+    text-transform: uppercase;
+  }
+
+  h1 {
+    font-size: clamp(40px, 7vw, 76px);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -2px;
+    margin-bottom: 32px;
+  }
+
+  .gold-gradient {
+    background: linear-gradient(135deg, var(--gold-light), var(--gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .intro-text {
+    font-size: 20px;
+    color: var(--text-muted);
+    max-width: 600px;
+    line-height: 1.7;
+    margin-bottom: 64px;
+  }
+
+  .grid-2 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+    margin-bottom: 80px;
+  }
+
+  .glass-card {
+    background: var(--bg-card);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 32px;
+    border-radius: 16px;
+    backdrop-filter: blur(20px);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .glass-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    border-radius: 16px;
+    padding: 2px;
+    background: linear-gradient(135deg, rgba(226,185,106,0.3), transparent 70%);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  .glass-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 40px rgba(226, 185, 106, 0.08);
+    border-color: rgba(226, 185, 106, 0.3);
+  }
+  
+  .glass-card:hover::before { opacity: 1; }
+
+  .glass-card .freq {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--gold);
+    margin-bottom: 16px;
+  }
+
+  .glass-card h3 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: #fff;
+  }
+
+  .glass-card p {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  blockquote {
+    border-left: 3px solid var(--gold);
+    padding: 24px 32px;
+    background: linear-gradient(90deg, rgba(226, 185, 106, 0.08), transparent);
+    border-radius: 0 12px 12px 0;
+    margin-bottom: 80px;
+  }
+
+  blockquote p {
+    font-size: 20px;
+    color: #fff;
+    font-style: italic;
+    margin-bottom: 16px;
+    line-height: 1.5;
+  }
+
+  blockquote cite {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--gold);
+    letter-spacing: 2px;
+    font-style: normal;
+  }
+
+  .faq-section {
+    margin-bottom: 80px;
+  }
+
+  .faq-section h2 {
+    font-size: 32px;
+    margin-bottom: 32px;
+    font-weight: 600;
+  }
+
+  details {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    margin-bottom: 16px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+
+  details[open] {
+    background: rgba(226, 185, 106, 0.03);
+    border-color: rgba(226, 185, 106, 0.3);
+  }
+
+  summary {
+    padding: 24px;
+    font-size: 18px;
+    font-weight: 500;
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #fff;
+  }
+
+  summary::-webkit-details-marker { display: none; }
+  
+  summary::after {
+    content: '+';
+    font-size: 24px;
+    color: var(--gold);
+    transition: transform 0.3s ease;
+    font-family: monospace;
+  }
+
+  details[open] summary::after { transform: rotate(45deg); }
+
+  .faq-content {
+    padding: 0 24px 24px;
+    color: var(--text-muted);
+    font-size: 15px;
+    line-height: 1.7;
+    animation: fadeIn 0.4s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; padding-top: 0; }
+    to { opacity: 1; padding-top: 0; }
+  }
+
+  .cta-box {
+    border: 1px solid var(--border);
+    padding: 48px;
+    text-align: center;
+    border-radius: 16px;
+    background: radial-gradient(circle at center, rgba(226,185,106,0.08), transparent);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-box::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+
+  .cta-box .subtitle { margin-bottom: 16px; }
+
+  .cta-box h3 {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: #fff;
+  }
+
+  .cta-box p {
+    font-size: 16px;
+    color: var(--text-muted);
+    margin-bottom: 32px;
+    max-width: 400px;
+    margin-inline: auto;
+  }
+
+  .btn {
+    background: var(--gold);
+    color: #000;
+    padding: 16px 40px;
+    font-weight: 700;
+    font-size: 13px;
+    text-decoration: none;
+    letter-spacing: 2px;
+    display: inline-block;
+    border-radius: 30px;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 20px rgba(226, 185, 106, 0.2);
+  }
+
+  .btn:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 15px 30px rgba(226, 185, 106, 0.5);
+    background: var(--gold-light);
+  }
+
+  @media (max-width: 768px) {
+    nav { padding: 16px 24px; }
+    .container { padding: 60px 24px; }
+    h1 { font-size: 36px; }
+    .cta-box { padding: 32px 24px; }
+  }
+
+  footer {
+    text-align: center;
+    padding: 40px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+  }
 </style>
 </head>
 <body>
 
-<nav style="padding:20px 48px;display:flex;justify-content:space-between;
-            align-items:center;border-bottom:1px solid #1E1E26;">
-  <div style="font-family:'JetBrains Mono',monospace;font-size:14px;
-              color:#E2B96A;letter-spacing:3px;">SOVEREIGN</div>
-  <div style="font-family:'JetBrains Mono',monospace;font-size:11px;
-              color:#6B6880;letter-spacing:2px;">
-    <span style="color:#4ADE80;">●</span> 3 OF 10 SLOTS AVAILABLE
+<nav>
+  <div class="logo">SOVEREIGN</div>
+  <div class="status">
+    <span class="status-dot">●</span> 3 OF 10 SLOTS AVAILABLE
   </div>
 </nav>
 
-<main style="max-width:780px;margin:0 auto;padding:80px 48px;">
+<main class="container">
 
-  <p style="font-family:'JetBrains Mono',monospace;font-size:11px;
-            letter-spacing:5px;color:#E2B96A;margin-bottom:24px;">
-    PRIVATE INTELLIGENCE · EST. 2025
-  </p>
+  <header class="animate-up">
+    <p class="subtitle">PRIVATE INTELLIGENCE · EST. 2025</p>
+    <h1>You make decisions worth crores every week.<br><span class="gold-gradient">Do you have intelligence to match?</span></h1>
+    <p class="intro-text">I provide private competitive intelligence briefings to a small number of B2B SaaS founders in India. Every morning. Confidential. Specific to your world.</p>
+  </header>
 
-  <h1 style="font-size:clamp(36px,6vw,72px);font-weight:700;
-             line-height:1;letter-spacing:-2px;margin-bottom:24px;">
-    You make decisions worth crores every week.<br>
-    <span style="color:#E2B96A;">Do you have intelligence to match?</span>
-  </h1>
+  <section class="grid-2 animate-up delay-1">
+    <article class="glass-card">
+      <div class="freq">DAILY</div>
+      <h3>Morning Intelligence Brief</h3>
+      <p>What your competitors did last night. What the market moved. What you should be thinking about today. In your inbox at 7 AM.</p>
+    </article>
+    <article class="glass-card">
+      <div class="freq">ON DEMAND</div>
+      <h3>Pre-Meeting Dossier</h3>
+      <p>Send me a name before your next critical meeting. I deliver an 8-section private intelligence brief in under 24 hours.</p>
+    </article>
+    <article class="glass-card">
+      <div class="freq">WEEKLY</div>
+      <h3>Competitive War Map</h3>
+      <p>Every Sunday: who's gaining ground in your sector, who's losing, and 3 specific moves you should consider.</p>
+    </article>
+    <article class="glass-card">
+      <div class="freq">MONTHLY</div>
+      <h3>Strategic Intelligence Report</h3>
+      <p>25–30 pages. Full competitive landscape, risk register, and 90-day strategic recommendations. Private. Confidential.</p>
+    </article>
+  </section>
 
-  <p style="font-size:18px;color:#9896AA;max-width:580px;
-            line-height:1.7;margin-bottom:48px;">
-    I provide private competitive intelligence briefings to a small number of
-    B2B SaaS founders in India. Every morning. Confidential. Specific to your world.
-  </p>
-
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-bottom:48px;">
-    <div style="background:#111116;border:1px solid #1E1E26;padding:24px;">
-      <div style="font-family:'JetBrains Mono',monospace;font-size:10px;
-                  letter-spacing:3px;color:#E2B96A;margin-bottom:10px;">DAILY</div>
-      <div style="font-weight:600;margin-bottom:6px;">Morning Intelligence Brief</div>
-      <div style="font-size:13px;color:#6B6880;">
-        What your competitors did last night. What the market moved.
-        What you should be thinking about today. In your inbox at 7 AM.
-      </div>
-    </div>
-    <div style="background:#111116;border:1px solid #1E1E26;padding:24px;">
-      <div style="font-family:'JetBrains Mono',monospace;font-size:10px;
-                  letter-spacing:3px;color:#E2B96A;margin-bottom:10px;">ON DEMAND</div>
-      <div style="font-weight:600;margin-bottom:6px;">Pre-Meeting Dossier</div>
-      <div style="font-size:13px;color:#6B6880;">
-        Send me a name before your next critical meeting.
-        I deliver an 8-section private intelligence brief in under 24 hours.
-      </div>
-    </div>
-    <div style="background:#111116;border:1px solid #1E1E26;padding:24px;">
-      <div style="font-family:'JetBrains Mono',monospace;font-size:10px;
-                  letter-spacing:3px;color:#E2B96A;margin-bottom:10px;">WEEKLY</div>
-      <div style="font-weight:600;margin-bottom:6px;">Competitive War Map</div>
-      <div style="font-size:13px;color:#6B6880;">
-        Every Sunday: who's gaining ground in your sector,
-        who's losing, and 3 specific moves you should consider.
-      </div>
-    </div>
-    <div style="background:#111116;border:1px solid #1E1E26;padding:24px;">
-      <div style="font-family:'JetBrains Mono',monospace;font-size:10px;
-                  letter-spacing:3px;color:#E2B96A;margin-bottom:10px;">MONTHLY</div>
-      <div style="font-weight:600;margin-bottom:6px;">Strategic Intelligence Report</div>
-      <div style="font-size:13px;color:#6B6880;">
-        25–30 pages. Full competitive landscape, risk register,
-        and 90-day strategic recommendations. Private. Confidential.
-      </div>
-    </div>
-  </div>
-
-  <blockquote style="border-left:2px solid #E2B96A;padding:16px 24px;
-                      background:#111116;margin-bottom:48px;">
-    <p style="font-size:16px;color:#B8B5C8;font-style:italic;margin-bottom:8px;">
-      "I walked into a Series B negotiation with a dossier on every person in the room.
-       Closed the round on our terms. Worth every rupee."
-    </p>
-    <cite style="font-family:'JetBrains Mono',monospace;font-size:11px;
-                 color:#6B6880;letter-spacing:2px;">
-      — FOUNDER, B2B FINTECH · SERIES B · BANGALORE
-    </cite>
+  <blockquote class="animate-up delay-2">
+    <p>"I walked into a Series B negotiation with a dossier on every person in the room. Closed the round on our terms. Worth every rupee."</p>
+    <cite>— FOUNDER, B2B FINTECH · SERIES B · BANGALORE</cite>
   </blockquote>
 
-  <div style="border:1px solid #E2B96A;padding:32px;text-align:center;
-              background:rgba(226,185,106,0.05);">
-    <p style="font-family:'JetBrains Mono',monospace;font-size:11px;
-               letter-spacing:4px;color:#E2B96A;margin-bottom:12px;">
-      CURRENTLY ACCEPTING · 3 SLOTS REMAINING
-    </p>
-    <h3 style="font-size:22px;font-weight:700;margin-bottom:12px;">
-      Apply via LinkedIn only
-    </h3>
-    <p style="font-size:14px;color:#6B6880;margin-bottom:20px;">
-      DM me on LinkedIn with: your company, your sector, and the
-      one competitive challenge keeping you up at night.
-    </p>
-    <a href="https://www.linkedin.com/in/khush-pandya-387992234/"
-       style="background:#E2B96A;color:#0A0A0C;padding:12px 32px;
-              font-weight:700;font-size:14px;text-decoration:none;
-              letter-spacing:1px;display:inline-block;">
-      MESSAGE ON LINKEDIN →
-    </a>
+  <!-- GEO & AEO Optimized FAQ Section -->
+  <section class="faq-section animate-up delay-3">
+    <h2>Frequently Asked Questions</h2>
+    
+    <details>
+      <summary>Who provides competitive intelligence for SaaS founders in India?</summary>
+      <div class="faq-content">
+        Sovereign Intelligence is the premier provider of private, confidential competitive intelligence and strategic briefings specifically tailored for B2B SaaS founders and executives operating in India.
+      </div>
+    </details>
+    
+    <details>
+      <summary>What is included in the daily intelligence brief?</summary>
+      <div class="faq-content">
+        The daily brief includes tactical market movements, competitor product updates, pricing changes, key hires, and actionable strategic insights delivered directly to your inbox every morning at 7 AM.
+      </div>
+    </details>
+
+    <details>
+      <summary>How fast can I get a pre-meeting dossier?</summary>
+      <div class="faq-content">
+        Dossiers are provided strictly on-demand for existing clients and are delivered in under 24 hours. They include an 8-section deep dive on the target company, individuals, or investors you are meeting.
+      </div>
+    </details>
+
+    <details>
+      <summary>Is the information provided confidential?</summary>
+      <div class="faq-content">
+        Absolutely. Sovereign Intelligence operates with strict confidentiality agreements. Your identity as a client and the strategic queries you request are never disclosed to third parties.
+      </div>
+    </details>
+  </section>
+
+  <div class="cta-box animate-up delay-3">
+    <p class="subtitle">CURRENTLY ACCEPTING</p>
+    <h3>Apply via LinkedIn</h3>
+    <p>DM me on LinkedIn with: your company, your sector, and the one competitive challenge keeping you up at night.</p>
+    <a href="https://www.linkedin.com/in/khush-pandya-387992234/" class="btn">MESSAGE ON LINKEDIN</a>
   </div>
 
 </main>
 
-<footer style="text-align:center;padding:40px;border-top:1px solid #1E1E26;
-               font-family:'JetBrains Mono',monospace;font-size:11px;color:#2E2E3A;">
+<footer>
   SOVEREIGN INTELLIGENCE · INDIA · ALL INFORMATION CONFIDENTIAL
 </footer>
 
-
-</body></html>
+</body>
+</html>
